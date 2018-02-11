@@ -1,0 +1,19 @@
+#! /bin/bash
+
+set -e
+set -u
+
+{% for e in certbot__certs_dirs.results %}
+
+{% if not e.stat.exists %}
+
+#{{ e.item }}
+CERTBOTARGS=""
+{% for webroot, domlist in certbot__certs[e.item].iteritems() %}
+CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
+{% endfor %}
+{{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --webroot --cert-name {{ e.item }} $CERTBOTARGS
+
+{% endif %}
+
+{% endfor %}

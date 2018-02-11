@@ -27,10 +27,17 @@
   with_items: "{{ certbot__certs_dirs.results }}"
   when: certbot__debug | default(False)
 
-- debug:
-    msg: "{{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --webroot --cert-name {{ item.item }} {% for webroot, domlist in certbot__certs[{{item.item}}] %} -w {{ webroot }} {% endfor %}"
-  with_items: "{{ certbot__certs_dirs.results }}"
-  when: certbot__debug | default(False) and not item.stat.exists
+- name: create certbot script dir
+  file:
+    path: "{{ certbot__scriptdir }}"
+    state: directory
+    mode: 0700
+
+- name: create cert gen script
+  template:
+    src: certbot.j2
+    dest: "{{ certbot__scriptdir }}/certbot.sh"
+    mode: 0700
 
 #- name: create cert
 #  command: "{{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --expand --webroot -w {{ item.item.key }} -d {{ certbot__certs[item.item.key] | join(' -d ') }}"

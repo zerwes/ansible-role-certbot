@@ -40,6 +40,7 @@ certbot__args:
   - "--email {{ certbot__email }}"
   - "{{ certbot__testing_args | join(' ') if certbot__testing }}"
 
+certbot__scriptdir: /var/tmp//certbot-scripts
 
 certbot__debug: yes
 
