@@ -1,19 +1,18 @@
 #! /bin/bash
+# vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu
 
 set -e
 set -u
 
-{% for e in certbot__certs_dirs.results %}
+{% for certname, certdata in certbot__certs.iteritems() %}
 
-{% if not e.stat.exists %}
-
-#{{ e.item }}
-CERTBOTARGS=""
-{% for webroot, domlist in certbot__certs[e.item].iteritems() %}
-CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
-{% endfor %}
-{{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --webroot --cert-name {{ e.item }} $CERTBOTARGS
-
-{% endif %}
+#{{ certname }}
+if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem ]; then
+  CERTBOTARGS=""
+  {% for webroot, domlist in certdata.iteritems() -%}
+  CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
+  {% endfor -%}
+  {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --webroot --cert-name {{ certname }} $CERTBOTARGS
+fi
 
 {% endfor %}

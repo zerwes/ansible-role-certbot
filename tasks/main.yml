@@ -7,26 +7,6 @@
     default_release: "{{ ansible_distribution_release }}-backports"
   when: certbot__install_from_repo
 
-- debug:
-    msg: "{{ certbot__bin }} args: '{{ certbot__args | join(' ') }}'"
-  when: certbot__debug | default(False)
-
-- debug:
-    msg: "{{ item }}"
-  with_items: "{{ certbot__certs.keys() }}"
-  when: certbot__debug | default(False)
-
-- name: check if cert file exists
-  stat:
-    path: "/etc/letsencrypt/live/{{ item }}"
-  register: certbot__certs_dirs
-  with_items: "{{ certbot__certs.keys() }}"
-
-- debug:
-    msg: " {{ item }}"
-  with_items: "{{ certbot__certs_dirs.results }}"
-  when: certbot__debug | default(False)
-
 - name: create certbot script dir
   file:
     path: "{{ certbot__scriptdir }}"
@@ -39,9 +19,14 @@
     dest: "{{ certbot__scriptdir }}/certbot.sh"
     mode: 0700
 
-#- name: create cert
-#  command: "{{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --expand --webroot -w {{ item.item.key }} -d {{ certbot__certs[item.item.key] | join(' -d ') }}"
-#  with_items: "{{ certbot__certs_dirs.results }}"
-#  when: not item.stat.exists
+- name: create certs
+  command: "{{ certbot__scriptdir }}/certbot.sh"
+
+- name: get list of live certs
+  command: "{{ certbot__bin }} certificates"
+  register: livecerts
+- debug:
+    msg: "{{ livecerts.stdout_lines }}"
+
 
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu
