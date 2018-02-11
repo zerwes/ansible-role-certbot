@@ -11,16 +11,22 @@ certbot__bin: "{{ '/usr/bin/certbot' if certbot__install_from_repo else '/opt/ce
 # run in testing/staging env only ... will result in invalid certs
 certbot__testing: yes
 
+certbot__email: test@nosuchdomain.xyz
 
-# map of webroot => lsit of names
-# for each webroot one cert will be generated
+# map of cert name => map webroot => lsit of names
+# for each maincertname a cert will be generated using the webroot map => domainname as names
 #certbot__certs:
-#  /srv/www/dom1:
-#    - a.dom1.tld1
-#    - b.dom1.tld1
-#    - a.dom2.tld2
-#  /srv/www/dom3
-#    - dom3.tld3
+#  dom1.tld1:
+#    /srv/www/dom1:
+#      - dom1.tld1
+#      - a.dom1.tld1
+#      - b.dom1.tld1
+#      - a.dom2.tld2
+#    /srv/www/dom3
+#      - dom3.tld3
+#  dom2.tld2:
+#    /srv/www/dom2
+#      - dom2.tld2
 
 
 certbot__testing_args:
@@ -30,6 +36,8 @@ certbot__args:
   - "--non-interactive"
   - "--quiet"
   - "--expand"
+  - "--agree-tos"
+  - "--email {{ certbot__email }}"
   - "{{ certbot__testing_args | join(' ') if certbot__testing }}"
 
 
