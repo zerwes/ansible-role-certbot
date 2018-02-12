@@ -9,7 +9,7 @@ certbot__install_from_repo: yes
 certbot__bin: "{{ '/usr/bin/certbot' if certbot__install_from_repo else '/opt/certbot-auto' }}"
 
 # run in testing/staging env only ... will result in invalid certs
-certbot__testing: yes
+certbot__testing: no
 
 certbot__email: test@nosuchdomain.xyz
 
@@ -42,6 +42,6 @@ certbot__args:
 
 certbot__scriptdir: /var/tmp//certbot-scripts
 
-certbot__debug: yes
+certbot__debug: no
 
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu
