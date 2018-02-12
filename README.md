@@ -5,6 +5,16 @@ ansible-role-certbot
 
 Will just generate letsencrypt.org certificates using certbot and webroot on debian-based systems.
 
+It will not configure apache etc.
+
+As certbot requires a working apache in order to validate domains, I use::
+
+	  roles:
+	    - { role: geerlingguy.apache, tags: apache, apache_ignore_missing_ssl_certificate: false } # first run to configure apache http
+	    - { role: certbot, tags: certbot }
+	    - { role: geerlingguy.apache, tags: apache, apache_ignore_missing_ssl_certificate: true } # second run after cert creation / renewal
+
+
 Vars
 ----
 
