@@ -38,7 +38,7 @@ certbot__args:
   - "--expand"
   - "--agree-tos"
   - "--email {{ certbot__email }}"
-  - "{{ certbot__testing_args | join(' ') if certbot__testing }}"
+  - "{{ certbot__testing_args | join(' ') if certbot__testing else ''}}"
 
 certbot__scriptdir: /var/tmp//certbot-scripts
 
