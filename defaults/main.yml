@@ -44,4 +44,7 @@ certbot__scriptdir: /var/tmp//certbot-scripts
 
 certbot__debug: no
 
+# set this to 1 in order to force re-creation of the certs
+certbot__forcerun: 0
+
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu

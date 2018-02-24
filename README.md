@@ -35,3 +35,9 @@ Vars
 	    /srv/www/dom2
 	      - dom2.tld2
 
+FIXME / TODO
+------------
+
+  * force a re-generation of the certs if domain list has changed
+
+  * renew cronjob: run tasks after renew

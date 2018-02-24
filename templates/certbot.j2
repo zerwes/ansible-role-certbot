@@ -7,12 +7,12 @@ set -u
 {% for certname, certdata in certbot__certs.iteritems() %}
 
 #{{ certname }}
-if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem ]; then
+if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o {{ certbot__forcerun | default(0) }} -gt 0 ]; then
   CERTBOTARGS=""
   {% for webroot, domlist in certdata.iteritems() -%}
   CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
   {% endfor -%}
-  {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} --webroot --cert-name {{ certname }} $CERTBOTARGS
+  {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} {% if certbot__forcerun == 1 -%} --break-my-certs {% endif -%} --webroot --cert-name {{ certname }} $CERTBOTARGS
 fi
 
 {% endfor %}
