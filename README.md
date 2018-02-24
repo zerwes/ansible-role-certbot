@@ -38,6 +38,4 @@ Vars
 FIXME / TODO
 ------------
 
-  * force a re-generation of the certs if domain list has changed
-
   * renew cronjob: run tasks after renew

@@ -39,6 +39,7 @@ certbot__args:
   - "--agree-tos"
   - "--email {{ certbot__email }}"
   - "{{ certbot__testing_args | join(' ') if certbot__testing else ''}}"
+  - "--renew-with-new-domains"
 
 certbot__scriptdir: /var/tmp//certbot-scripts
 
