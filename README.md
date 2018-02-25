@@ -38,4 +38,4 @@ Vars
 FIXME / TODO
 ------------
 
-  * renew cronjob: run tasks after renew
+  * renew cronjob: run tasks after renew (use /etc/letsencrypt/renewal-hooks/post or --post-hook)
