@@ -1,11 +1,21 @@
 ---
 
-- name: install certbot from repo
+- name: install certbot from backports repo
   apt:
     name: certbot
     state: latest
     default_release: "{{ ansible_distribution_release }}-backports"
-  when: certbot__install_from_repo
+  when:
+    - certbot__install_from_repo
+    - ansible_distribution == "Debian" and ansible_distribution_release in ["jessie", 'stretch']
+
+- name: install certbot from repo
+  apt:
+    name: certbot
+    state: latest
+  when:
+    - certbot__install_from_repo
+    - ansible_distribution == "Debian" and ansible_distribution_release not in ["jessie", 'stretch']
 
 - name: create certbot script dir
   file:
@@ -27,6 +37,6 @@
   register: livecerts
 - debug:
     msg: "{{ livecerts.stdout_lines }}"
-
+  when: not ansible_check_mode
 
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu
