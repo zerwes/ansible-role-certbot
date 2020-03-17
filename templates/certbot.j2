@@ -4,12 +4,12 @@
 set -e
 set -u
 
-{% for certname, certdata in certbot__certs.iteritems() %}
+{% for certname, certdata in certbot__certs.items() %}
 
 #{{ certname }}
 if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o {{ certbot__forcerun | default(0) }} -gt 0 ]; then
   CERTBOTARGS=""
-  {% for webroot, domlist in certdata.iteritems() -%}
+  {% for webroot, domlist in certdata.items() -%}
   CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
   {% endfor -%}
   {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} {% if certbot__forcerun == 1 -%} --reinstall --force-renewal --break-my-certs {% endif -%} --webroot --cert-name {{ certname }} $CERTBOTARGS
