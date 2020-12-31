@@ -1,6 +1,5 @@
 ---
 
-
 certbot__install_from_repo: yes
 
 # not yet implemented
@@ -28,7 +27,6 @@ certbot__email: test@nosuchdomain.xyz
 #    /srv/www/dom2
 #      - dom2.tld2
 
-
 certbot__testing_args:
   - "--staging"
 
@@ -41,7 +39,7 @@ certbot__args:
   - "{{ certbot__testing_args | join(' ') if certbot__testing else ''}}"
   - "--renew-with-new-domains"
 
-certbot__scriptdir: /var/tmp//certbot-scripts
+certbot__scriptdir: /var/tmp/certbot-scripts
 
 certbot__debug: no
 
