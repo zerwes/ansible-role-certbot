@@ -17,13 +17,13 @@
     - certbot__install_from_repo
     - ansible_distribution == "Debian" and ansible_distribution_release not in ["jessie", 'stretch']
 
-- name: create certbot script dir
+- name: create certbot script dir {{ certbot__scriptdir }}
   file:
     path: "{{ certbot__scriptdir }}"
     state: directory
     mode: 0700
 
-- name: create cert gen script
+- name: create cert gen script {{ certbot__scriptdir }}/certbot.sh
   template:
     src: certbot.j2
     dest: "{{ certbot__scriptdir }}/certbot.sh"
