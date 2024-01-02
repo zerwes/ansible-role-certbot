@@ -1,6 +1,6 @@
 ---
 
-certbot__install_from_repo: yes
+certbot__install_from_repo: true
 
 # not yet implemented
 #certbot__install_from_src: no
