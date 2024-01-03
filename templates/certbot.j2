@@ -8,11 +8,21 @@ set -u
 
 #{{ certname }}
 if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o {{ certbot__forcerun | default(0) }} -gt 0 ]; then
-  CERTBOTARGS=""
+  CERTBOTARGS="--webroot"
+  {% if certbot__use_http %}
+  CERTBOTARGS="--standalone"
+  {% if certbot__http_addres | length > 0 %}
+  CERTBOTARGS="$CERTBOTARGS --http-01-address {{ certbot__http_addres }}"
+  {% endif %}
+  {% endif %}
   {% for webroot, domlist in certdata.items() -%}
+  {% if certbot__use_http %}
+  CERTBOTARGS="$CERTBOTARGS --http-01-port {{ webroot }} -d {{ domlist | join(',') }}"
+  {% else %}
   CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
+  {% endif %}
   {% endfor -%}
-  {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} {% if certbot__forcerun == 1 -%} --reinstall --force-renewal --break-my-certs {% endif -%} --webroot --cert-name {{ certname }} $CERTBOTARGS
+  {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} {% if certbot__forcerun == 1 -%} --reinstall --force-renewal --break-my-certs {% endif -%} --cert-name {{ certname }} $CERTBOTARGS
 fi
 
 {% endfor %}
