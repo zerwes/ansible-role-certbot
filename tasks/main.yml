@@ -3,7 +3,6 @@
 - name: install certbot from backports repo
   ansible.builtin.apt:
     name: certbot
-    state: latest
     default_release: "{{ ansible_distribution_release }}-backports"
   when:
     - certbot__install_from_repo
@@ -12,7 +11,6 @@
 - name: install certbot from repo
   ansible.builtin.apt:
     name: certbot
-    state: latest
   when:
     - certbot__install_from_repo
     - ansible_distribution == "Debian" and ansible_distribution_release not in ["jessie", 'stretch']
@@ -21,28 +19,30 @@
   ansible.builtin.file:
     path: "{{ certbot__scriptdir }}"
     state: directory
-    mode: 0700
+    mode: "0700"
 
 - name: create cert gen script {{ certbot__scriptdir }}/certbot.sh
   ansible.builtin.template:
     src: certbot.j2
     dest: "{{ certbot__scriptdir }}/certbot.sh"
-    mode: 0700
+    mode: "0700"
 
 - name: copy scripts to {{ certbot__scriptdir }}
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ certbot__scriptdir }}/{{ item }}"
     mode: 0700
   with_items: "{{ certbot__scripts }}"
 
-- name: create certs
+- name: create certs  # noqa no-changed-when
   ansible.builtin.command: "{{ certbot__scriptdir }}/certbot.sh"
 
-- name: get list of live certs
+- name: get list of live certs  # noqa no-changed-when
   ansible.builtin.command: "{{ certbot__bin }} certificates"
   register: livecerts
-- ansible.builtin.debug:
+
+- name: print live certs
+  ansible.builtin.debug:
     msg: "{{ livecerts.stdout_lines }}"
   when: not ansible_check_mode
 

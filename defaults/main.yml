@@ -3,12 +3,12 @@
 certbot__install_from_repo: true
 
 # not yet implemented
-#certbot__install_from_src: no
+# certbot__install_from_src: no
 
 certbot__bin: "{{ '/usr/bin/certbot' if certbot__install_from_repo else '/opt/certbot-auto' }}"
 
 # run in testing/staging env only ... will result in invalid certs
-certbot__testing: no
+certbot__testing: false
 
 certbot__email: test@nosuchdomain.xyz
 
@@ -21,7 +21,7 @@ certbot__http_addres: 127.0.0.1
 
 # map of cert name => map webroot => lsit of names
 # for each maincertname a cert will be generated using the webroot map => domainname as names
-#certbot__certs:
+# certbot__certs:
 #  dom1.tld1:
 #    /srv/www/dom1:
 #      - dom1.tld1
@@ -43,7 +43,7 @@ certbot__args:
   - "--expand"
   - "--agree-tos"
   - "--email {{ certbot__email }}"
-  - "{{ certbot__testing_args | join(' ') if certbot__testing else ''}}"
+  - "{{ certbot__testing_args | join(' ') if certbot__testing else '' }}"
   - "--renew-with-new-domains"
 
 
