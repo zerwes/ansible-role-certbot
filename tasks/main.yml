@@ -29,6 +29,13 @@
     dest: "{{ certbot__scriptdir }}/certbot.sh"
     mode: 0700
 
+- name: copy scripts to {{ certbot__scriptdir }}
+  copy:
+    src: "{{ item }}"
+    dest: "{{ certbot__scriptdir }}/{{ item }}"
+    mode: 0700
+  with_items: "{{ certbot__scripts }}"
+
 - name: create certs
   command: "{{ certbot__scriptdir }}/certbot.sh"
 
