@@ -12,6 +12,13 @@ certbot__testing: no
 
 certbot__email: test@nosuchdomain.xyz
 
+# use --http-01-port instead of webroot
+# in this case, webroot must be a interger desscribing the http port to listen
+certbot__use_http: false
+
+# if we use http-01-port. the address to listen to # http-01-address
+certbot__http_addres: 127.0.0.1
+
 # map of cert name => map webroot => lsit of names
 # for each maincertname a cert will be generated using the webroot map => domainname as names
 #certbot__certs:
