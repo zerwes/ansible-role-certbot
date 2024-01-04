@@ -59,8 +59,6 @@ certbot__hooks: {}
 # maybe required for the hooks
 certbot__scripts: []
 
-certbot__debug: no
-
 # set this to 1 in order to force re-creation of the certs
 certbot__forcerun: 0
 
