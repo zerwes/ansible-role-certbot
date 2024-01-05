@@ -7,7 +7,7 @@ set -u
 {% for certname, certdata in certbot__certs.items() %}
 
 #{{ certname }}
-if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o {{ certbot__forcerun | default(0) }} -gt 0 ]; then
+if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o "$0" -nt /etc/letsencrypt/live/{{ certname }}/cert.pem -o {{ certbot__forcerun | default(0) }} -gt 0 ]; then
   CERTBOTARGS="--webroot"
   {% if certbot__use_http %}
   CERTBOTARGS="--standalone"
