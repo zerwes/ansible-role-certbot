@@ -17,7 +17,7 @@ certbot__email: test@nosuchdomain.xyz
 certbot__use_http: false
 
 # if we use http-01-port. the address to listen to # http-01-address
-certbot__http_addres: 127.0.0.1
+certbot__http_address: 127.0.0.1
 
 # map of cert name => map webroot => lsit of names
 # for each maincertname a cert will be generated using the webroot map => domainname as names

@@ -11,8 +11,8 @@ if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o "$0" -nt /etc/letsenc
   CERTBOTARGS="--webroot"
   {% if certbot__use_http %}
   CERTBOTARGS="--standalone"
-  {% if certbot__http_addres | length > 0 %}
-  CERTBOTARGS="$CERTBOTARGS --http-01-address {{ certbot__http_addres }}"
+  {% if certbot__http_address | length > 0 %}
+  CERTBOTARGS="$CERTBOTARGS --http-01-address {{ certbot__http_address }}"
   {% endif %}
   {% endif %}
   {% for webroot, domlist in certdata.items() -%}
