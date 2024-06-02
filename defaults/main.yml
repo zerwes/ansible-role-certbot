@@ -52,7 +52,7 @@ certbot__scriptdir: /var/tmp/certbot-scripts
 # optional pre/post/deploy hooks
 # example:
 # certbot__hooks:
-#   deploy: "{{ certbot__scriptdir }}/certbot4haproxy.sh
+#   deploy: "certbot4haproxy.sh
 certbot__hooks: {}
 
 # additional scripts to copy into certbot__scriptdir

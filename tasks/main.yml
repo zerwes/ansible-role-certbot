@@ -34,6 +34,13 @@
     mode: "0700"
   with_items: "{{ certbot__scripts }}"
 
+- name: deploy hooks
+  ansible.builtin.copy:
+    src: "{{ item.value }}"
+    dest: "/etc/letsencrypt/renewal-hooks/{{ item.key }}/{{ item.value }}"
+    mode: "0755"
+  with_dict: "{{ certbot__hooks }}"
+
 - name: create certs  # noqa no-changed-when
   ansible.builtin.command: "{{ certbot__scriptdir }}/certbot.sh"
 

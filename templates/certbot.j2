@@ -22,9 +22,6 @@ if [ ! -f /etc/letsencrypt/live/{{ certname }}/cert.pem -o "$0" -nt /etc/letsenc
   CERTBOTARGS="$CERTBOTARGS -w {{ webroot }} -d {{ domlist | join(',') }}"
   {% endif %}
   {% endfor -%}
-  {% for hook, script in certbot__hooks.items() %}
-  CERTBOTARGS="$CERTBOTARGS --{{ hook }}-hook {{ script }}"
-  {% endfor %}
   {{ certbot__bin }} certonly {{ certbot__args | join(' ') }} {% if certbot__forcerun == 1 -%} --reinstall --force-renewal --break-my-certs {% endif -%} --cert-name {{ certname }} $CERTBOTARGS
 fi
 
