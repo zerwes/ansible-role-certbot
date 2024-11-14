@@ -37,8 +37,9 @@
 - name: deploy hooks
   ansible.builtin.copy:
     src: "{{ item.value }}"
-    dest: "/etc/letsencrypt/renewal-hooks/{{ item.key }}/{{ item.value }}"
+    dest: "/etc/letsencrypt/renewal-hooks/{{ item.key }}/{{ item.value | basename }}"
     mode: "0755"
+    remote_src: true
   with_dict: "{{ certbot__hooks }}"
 
 - name: create certs  # noqa no-changed-when
