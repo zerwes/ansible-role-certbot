@@ -35,7 +35,5 @@ Vars
 	    /srv/www/dom2
 	      - dom2.tld2
 
-FIXME / TODO
-------------
 
-  * renew cronjob: run tasks after renew (use /etc/letsencrypt/renewal-hooks/post or --post-hook)
+more VARs can be found in [defaults/main.yml](defaults/main.yml)
