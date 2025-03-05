@@ -20,7 +20,7 @@ Vars
 
 	certbot__email: test@nosuchdomain.xyz
 
-	# map of cert name => map webroot => lsit of names
+	# map of cert name => map webroot => list of names
 	# for each maincertname a cert will be generated using the webroot map => domainname as names
 	certbot__certs:
 	  dom1.tld1:
